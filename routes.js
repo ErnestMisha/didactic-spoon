@@ -26,3 +26,7 @@ router.get('/films', async (req, res, next) => {
     });
     res.send({ films: list });
 });
+
+router.post('/favorites', async (req, res, next) => {
+    res.end();
+});
