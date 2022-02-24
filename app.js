@@ -3,9 +3,6 @@ import createError from 'http-errors';
 import logger from 'morgan';
 
 import { router } from './routes.js';
-import { sync as syncDB } from './models.js';
-
-await syncDB();
 
 const app = express();
 const port = process.env.PORT || 3000;

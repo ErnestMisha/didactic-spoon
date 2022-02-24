@@ -1,0 +1,5 @@
+database: swapi
+username: swapi
+password: swapi
+host: localhost
+dialect: mysql
