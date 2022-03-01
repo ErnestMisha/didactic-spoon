@@ -25,16 +25,21 @@ export class FilmPeople extends Model {}
 
 export function init() {
     Person.init({
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: false
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false
         },
         height: {
-            type: DataTypes.SMALLINT.UNSIGNED,
+            type: DataTypes.STRING,
             allowNull: false
         },
         mass: {
-            type: DataTypes.SMALLINT.UNSIGNED,
+            type: DataTypes.STRING,
             allowNull: false
         },
         hair_color: {
@@ -62,6 +67,11 @@ export function init() {
         modelName: 'Person'
     });
     Film.init({
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: false
+        },
         release_date: {
             type: DataTypes.DATEONLY,
             allowNull: false
