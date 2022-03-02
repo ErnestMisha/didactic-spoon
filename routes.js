@@ -119,3 +119,25 @@ router.post('/favorites', async (req, res, next) => {
     }
     res.end();
 });
+
+router.get('/favorites', async (req, res, next) => {
+    let lists;
+    const resList = [];
+    try {
+        lists = await List.findAll();
+    }
+    catch(err) {
+        return next(createError(500));
+    }
+    if(lists) {
+        for(const list of lists) {
+            resList.push({
+                id: list.id,
+                name: list.name
+            });
+        }
+    }
+    res.send({
+        lists: resList
+    });
+});
