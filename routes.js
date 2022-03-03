@@ -2,7 +2,6 @@ import express from 'express';
 import axios from 'axios';
 import createError from 'http-errors';
 import { List, Film, Person, ListFilms, FilmPeople } from './models.js';
-import { Op } from 'sequelize';
 
 export const router = express.Router();
 
@@ -123,28 +122,20 @@ router.post('/favorites', async (req, res, next) => {
 
 router.get('/favorites', async (req, res, next) => {
     let lists;
-    const resList = [];
     try {
         lists = await List.findAndCountAll({
-            limit: req.query?.limit,
-            offset: req.query?.offset
+            attributes: ['id', 'name'],
+            limit: Number.parseInt(req.query.limit) || undefined,
+            offset: Number.parseInt(req.query.offset) || undefined
         });
     }
     catch(err) {
         return next(createError(500));
     }
-    if(lists) {
-        for(const list of lists.rows) {
-            resList.push({
-                id: list.id,
-                name: list.name
-            });
-        }
-    }
     res.send({
-        countAll: lists.count,
-        limit: req.query?.limit,
-        offset: req.query?.offset,
-        items: resList
+        numberOfAll: lists.count,
+        limit: req.query.limit,
+        offset: req.query.offset,
+        items: lists.rows
     });
 });
