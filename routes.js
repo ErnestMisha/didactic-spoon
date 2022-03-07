@@ -139,3 +139,55 @@ router.get('/favorites', async (req, res, next) => {
         items: lists.rows
     });
 });
+
+router.get('/favorites/:id', async (req, res, next) => {
+    let list;
+    const id = Number.parseInt(req.params.id);
+    if(!Number.isNaN(id)) {
+        try {
+            list = await List.findByPk(id, {
+                include: {
+                    model: Film,
+                    through: {
+                        attributes: []
+                    },
+                    include: {
+                        model: Person,
+                        through: {
+                            attributes: []
+                        }
+                    }
+                }
+            });
+        }
+        catch(err) {
+            return next(createError(500));
+        }
+    }
+    else {
+        list = await List.findOne({
+            where: {
+                name: req.params.id
+            },
+            include: {
+                model: Film,
+                through: {
+                    attributes: []
+                },
+                include: {
+                    model: Person,
+                    through: {
+                        attributes: []
+                    }
+                }
+            }
+        });
+    }
+    if(list) {
+        res.send(list.toJSON());
+
+    }
+    else {
+        res.status(404).end();
+    }
+});
